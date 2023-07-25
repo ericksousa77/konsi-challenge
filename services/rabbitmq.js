@@ -1,22 +1,22 @@
 import amqp from 'amqplib'
-import { RABBITMQ_QUEUE } from '../config/config'
-
-const queueName = RABBITMQ_QUEUE
+import { RABBITMQ_HOST, RABBITMQ_PORT, RABBITMQ_QUEUE } from '../config/config'
 
 export const putDataInQueue = async data => {
   const connection = await amqp.connect('amqp://localhost')
   const channel = await connection.createChannel()
-  await channel.assertQueue(queueName)
-  await channel.sendToQueue(queueName, Buffer.from(JSON.stringify(data)))
+  await channel.assertQueue(RABBITMQ_QUEUE)
+  await channel.sendToQueue(RABBITMQ_QUEUE, Buffer.from(JSON.stringify(data)))
   await channel.close()
   await connection.close()
 }
 
 export const getDataFromQueue = async () => {
-  const connection = await amqp.connect('amqp://localhost')
+  const connection = await amqp.connect(
+    `amqp://${RABBITMQ_HOST}:${RABBITMQ_PORT}`
+  )
   const channel = await connection.createChannel()
-  await channel.assertQueue(queueName)
-  const message = await channel.get(queueName)
+  await channel.assertQueue(RABBITMQ_QUEUE)
+  const message = await channel.get(RABBITMQ_QUEUE)
   await channel.close()
   await connection.close()
 
