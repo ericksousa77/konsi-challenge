@@ -1,79 +1,33 @@
-import puppeteer from 'puppeteer'
 import {
   EXTRATO_CLUBE_LOGIN,
   EXTRATO_CLUBE_PASSWORD,
   EXTRATO_CLUBE_URL
 } from '../config/config'
+import { getSrcFromFrame } from './utills'
 
-console.log(EXTRATO_CLUBE_LOGIN, EXTRATO_CLUBE_PASSWORD)
-
-export const loginOnExtratoClube = async browser => {
+export const loginOnExtratoClube = async ({ browser, login, password }) => {
   try {
     const page = await browser.newPage()
-    await page.goto(
-      //   'http://ionic-application.s3-website-sa-east-1.amazonaws.com/',
-      EXTRATO_CLUBE_URL,
-      {
-        waitUntil: 'domcontentloaded'
-      }
-    )
+    await page.goto(EXTRATO_CLUBE_URL, {
+      waitUntil: 'domcontentloaded'
+    })
 
-    console.log('erick', await page.frames())
+    const htmlString = await page.frames()[0].content()
 
-    // const framesetContent = await page.evaluate(() => {
-    //   const frameset = document.querySelector('.frameset-class') // Substitua .frameset-class pelo seletor de classe correto
-    //   return frameset ? frameset.getAttribute('src') : null
-    // })
-    // if (!framesetContent) {
-    //   console.log('Não foi possível encontrar o frameset ou a URL dentro dele.')
-    // }
+    const frameUrl = getSrcFromFrame(htmlString)
 
-    // await page.goto(framesetContent, {
-    //   waitUntil: 'domcontentloaded'
-    // })
+    const pageToLogin = await browser.newPage()
+    await pageToLogin.goto(frameUrl, {
+      waitUntil: 'domcontentloaded'
+    })
 
-    // await page.waitForSelector('input[formcontrolname="login"]')
+    await pageToLogin.waitForSelector('input[formcontrolname="login"]')
+    await pageToLogin.type('input[formcontrolname="login"]', login)
+    await pageToLogin.waitForSelector('input[formcontrolname="senha"]')
+    await pageToLogin.type('input[formcontrolname="senha"]', password)
+    await pageToLogin.click('#botao')
 
-    // // Inserir um valor no campo de login
-    // await page.type('input[formcontrolname="login"]', 'seu_nome_de_usuario')
-
-    // const teste = await page.frames()
-
-    // console.log('erick', teste[0].html)
-
-    // console.log(page.fame)
-    // //to pegando o primeiro frame, mas poderia fazer de alguma forma melhor
-    // const frame = await page
-    //   .frames()
-    //   .find(
-    //     f =>
-    //       f.url() ===
-    //       'http://ionic-application.s3-website-sa-east-1.amazonaws.com/'
-    //   )
-
-    // console.log(frame)
-
-    // if (!frame) {
-    //   console.log('iFrame not found with the specified url')
-    // }
-
-    // await page.goto(frame.url(), { waitUntil: 'domcontentloaded' })
-    // Navegar para o frame
-    // await page.goto(
-    //   'http://ionic-application.s3-website-sa-east-1.amazonaws.com/',
-    //   { waitUntil: 'domcontentloaded' }
-    // )
-
-    // Preencha o formulário de login
-
-    // await page.type('#user', 'radbr') // Substitua SEU_USUARIO pelo seu nome de usuário
-
-    // await page.type('#user', 'radbr') // Substitua SEU_USUARIO pelo seu nome de usuário
-    // await page.type('#pass', EXTRATO_CLUBE_PASSWORD) // Substitua SUA_SENHA pela sua senha
-    // await page.click('#botao')
-
-    // Clique no botão de login
-    // await page.click('[name=btnK]') // Usamos o seletor do botão usando a classe "botao2"
+    //validar se exibiu o model da dados invalidos
 
     // Aguarde o redirecionamento ou carregamento da próxima página após o login
     // await page.waitForNavigation({ waitUntil: 'domcontentloaded' })

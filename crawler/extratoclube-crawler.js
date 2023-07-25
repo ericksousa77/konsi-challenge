@@ -4,13 +4,17 @@ import puppeteer from 'puppeteer'
 // import { indexData } from '../services/elasticsearch'
 import { loginOnExtratoClube } from '../helpers/crawler'
 
-export const crawlAndProcess = async (cpf, login, senha) => {
+export const crawlAndProcess = async ({ cpf, login, password }) => {
   console.log('checkpoint1')
   // Altere para headless: true para executar em segundo plano sem interface gráfica.
-  const browser = await puppeteer.launch({ headless: false })
+  const browser = await puppeteer.launch({
+    headless: false,
+    ignoreHTTPSErrors: true,
+    args: ['--disable-web-security']
+  })
   console.log('checkpoint2')
 
-  const loggedPage = await loginOnExtratoClube(browser)
+  const loggedPage = await loginOnExtratoClube({ browser, login, password })
 
   // await browser.close();
   console.log('checkpoint3')
