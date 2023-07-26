@@ -1,6 +1,5 @@
-import { consumeMessages } from '../../cron/crawl-data-on-queue'
 import { encrypt } from '../../helpers/security'
-import { insertDataInQueue } from '../../services/rabbitmq'
+import { consumeMessages, insertDataInQueue } from '../../services/rabbitmq'
 
 export const pushToQueue = async (req, res) => {
   const dataToQueue = req.body

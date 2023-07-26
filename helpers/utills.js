@@ -15,3 +15,10 @@ export const getSrcFromFrame = htmlString => {
 export const timeout = ms => {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
+
+//mock function
+export const processMessage = async msg => {
+  // Simula algum processamento levemente demorado
+  await new Promise(resolve => setTimeout(resolve, 100))
+  console.log(`Mensagem processada: ${msg?.content?.toString()}`)
+}
