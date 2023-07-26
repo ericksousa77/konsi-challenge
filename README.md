@@ -5,7 +5,7 @@
 [site para crawlear](http://extratoclube.com.br/)
 
 
-- [x] - insert on queue
+- [x] - insert data on queue
 - [x] - encrypt user password to save on queue
 - [x] - consume queue for crawl
 - [x] - decrypt user password to use in login
