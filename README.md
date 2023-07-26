@@ -7,7 +7,7 @@
 
 - [x] - insert on queue
 - [x] - encrypt user password to save on queue
-- [ ] - consume queue for crawl
+- [x] - consume queue for crawl
 - [x] - decrypt user password to use in login
 - [x] - login on portal
 - [ ] - crawl data on portal
