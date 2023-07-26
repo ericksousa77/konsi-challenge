@@ -24,3 +24,6 @@ export const REDIS_PORT = process.env.REDIS_PORT || 6379
 export const EXTRATO_CLUBE_URL = process.env.EXTRATO_CLUBE_URL
 export const EXTRATO_CLUBE_LOGIN = process.env.EXTRATO_CLUBE_LOGIN
 export const EXTRATO_CLUBE_PASSWORD = process.env.EXTRATO_CLUBE_PASSWORD
+
+export const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY
+export const ENCRYPTION_ALGORITHM = process.env.ENCRYPTION_ALGORITHM
