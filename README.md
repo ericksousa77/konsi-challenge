@@ -1,6 +1,6 @@
 # konsi-challenge
 
-[repositório do desafio](https://github.com/user/repo/blob/branch/other_file.md](https://gist.github.com/gustavoaraujofe/265c43b8b1df2dc4d6dd7e28959371d4)
+[repositório do desafio](https://gist.github.com/gustavoaraujofe/265c43b8b1df2dc4d6dd7e28959371d4)
 
 [site para crawlear](http://extratoclube.com.br/)
 
