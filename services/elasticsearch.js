@@ -14,21 +14,35 @@ export const indexData = async ({ index, data }) => {
   })
 }
 
-export const getAllRecordsFromIndex = async indexName => {
+export const getAllRecordsFromIndexByCPF = async ({
+  indexName,
+  cpf,
+  page = 1,
+  pageSize = 1
+}) => {
   try {
+    const from = (page - 1) * pageSize
+
     const response = await client.search({
       index: indexName,
       body: {
         query: {
-          match_all: {} // Consulta vazia para buscar todos os documentos
-        }
+          match: {
+            'cpf.keyword': cpf
+          }
+        },
+        sort: [{ _id: 'desc' }],
+        from,
+        size: pageSize
       }
     })
 
-    console.log(response?.body?.hits?.hits)
-
     const records = response.body.hits.hits
-    return records
+    const totalHits = response.body.hits.total.value
+
+    const pageCount = Math.ceil(totalHits / pageSize)
+
+    return { records, pagination: { page, pageSize, pageCount } }
   } catch (error) {
     console.error('Erro ao buscar registros:', error)
     return []
