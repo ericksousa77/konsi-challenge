@@ -1,7 +1,7 @@
 import puppeteer from 'puppeteer'
 // import { setCacheData, getCacheData } from '../services/redis'
 // import { indexData } from '../services/elasticsearch'
-import { loginOnExtratoClube } from '../helpers/crawler'
+import { loginOnExtratoClubeAndCloseUpdatesModal } from '../helpers/crawler'
 
 export const crawlAndProcess = async ({ cpf, login, password }) => {
   console.log('checkpoint1')
@@ -12,9 +12,15 @@ export const crawlAndProcess = async ({ cpf, login, password }) => {
   console.log('checkpoint2')
 
   //login process
-  const loggedPage = await loginOnExtratoClube({ browser, login, password })
+  const homePage = await loginOnExtratoClubeAndCloseUpdatesModal({
+    browser,
+    login,
+    password
+  })
 
   //navegar para a aba "beneficios de um cpf"
+
+  // const result = await getBenefitsData({homePage, cpf })
 
   //buscar os dados correspondentes a mensagem na fila
 
@@ -23,7 +29,7 @@ export const crawlAndProcess = async ({ cpf, login, password }) => {
   // await browser.close();
   console.log('checkpoint3')
 
-  console.log(loggedPage)
+  // console.log(homePage)
 
   // Implement the login process on the portal using puppeteer
   // Navigate to "MENU DE OPÇÕES" and click on "BENEFÍCIOS DE UM CPF"

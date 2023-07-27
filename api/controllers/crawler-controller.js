@@ -10,7 +10,6 @@ import {
 export const show = async (req, res) => {
   const data = { rua: 'pimba', numero: 47 }
 
-  // console.log('antes')
   // await createIndex().catch(err =>
   //   res
   //     .status(500)

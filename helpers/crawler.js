@@ -5,19 +5,26 @@ import {
 } from '../config/config'
 import { getSrcFromFrame } from './utills'
 
-export const loginOnExtratoClube = async ({ browser, login, password }) => {
+export const loginOnExtratoClubeAndCloseUpdatesModal = async ({
+  browser,
+  login,
+  password
+}) => {
   try {
     const page = await browser.newPage()
     await page.goto(EXTRATO_CLUBE_URL, {
       waitUntil: 'domcontentloaded'
     })
 
-    const htmlString = await page.frames()[0].content()
+    const htmlStringForInitialPage = await page.frames()[0].content()
 
-    const frameUrl = getSrcFromFrame(htmlString)
+    await page.close()
+
+    const frameUrlForInitialPage = getSrcFromFrame(htmlStringForInitialPage)
 
     const pageToLogin = await browser.newPage()
-    await pageToLogin.goto(frameUrl, {
+
+    await pageToLogin.goto(frameUrlForInitialPage, {
       waitUntil: 'domcontentloaded'
     })
 
@@ -29,15 +36,19 @@ export const loginOnExtratoClube = async ({ browser, login, password }) => {
 
     //validar se exibiu o model da dados invalidos
 
-    // Aguarde o redirecionamento ou carregamento da próxima página após o login
-    // await page.waitForNavigation({ waitUntil: 'domcontentloaded' })
+    // Aguarda o redirecionamento ou carregamento da próxima página após o login
+    await pageToLogin.waitForNavigation({ waitUntil: 'networkidle0' })
 
-    // Neste ponto, você está logado e pode explorar a próxima tela desbloqueada.
+    const homePageFrame = await pageToLogin.frames()[0]
 
-    // Feche o navegador após concluir as tarefas
-    // await browser.close();
+    await homePageFrame.waitForSelector('ion-button[title="Fechar"]')
 
-    return page
+    await homePageFrame.click('ion-button[title="Fechar"]')
+
+    //clickar no botão de beneficios
+    // await homePageFrame.click('ion-button[expand="full"]')
+
+    return homePageFrame
   } catch (error) {
     console.error('Ocorreu um erro:', error)
   }
