@@ -22,3 +22,9 @@ export const processMessage = async msg => {
   await new Promise(resolve => setTimeout(resolve, 100))
   console.log(`Mensagem processada: ${msg?.content?.toString()}`)
 }
+
+export const mockCrawlReturn = cpf => ({
+  cpf,
+  name: 'Nome Mockado 3',
+  benefit: 'Bradesco'
+})
