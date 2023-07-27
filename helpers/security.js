@@ -1,6 +1,8 @@
 import crypto from 'crypto'
 import { ENCRYPTION_ALGORITHM, ENCRYPTION_KEY } from '../config/config'
 
+//adicionar try catch
+
 // Função para criptografar o dado
 export const encrypt = data => {
   const iv = crypto.randomBytes(16)
@@ -26,7 +28,7 @@ export const decrypt = encryptedData => {
   const iv = Buffer.from(ivHex, 'hex')
 
   const decipher = crypto.createDecipheriv(
-    'aes-256-cbc',
+    ENCRYPTION_ALGORITHM,
     Buffer.from(ENCRYPTION_KEY),
     iv
   )
