@@ -18,7 +18,7 @@ export const getAllRecordsFromIndexByCPF = async ({
   indexName,
   cpf,
   page = 1,
-  pageSize = 1
+  pageSize = 10
 }) => {
   try {
     const from = (page - 1) * pageSize
