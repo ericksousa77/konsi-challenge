@@ -1,17 +1,19 @@
 import puppeteer from 'puppeteer'
 // import { setCacheData, getCacheData } from '../services/redis'
-// import { indexData } from '../services/elasticsearch'
 import { loginOnExtratoClubeAndCloseUpdatesModal } from '../helpers/crawler'
+import { indexData } from '../services/elasticsearch'
+import { mockCrawlReturn } from '../helpers/utills'
 
 export const crawlAndProcess = async ({ cpf, login, password }) => {
   console.log('checkpoint1')
   const browser = await puppeteer.launch({
-    headless: false,
+    headless: 'new', // a outra opção é false
     ignoreHTTPSErrors: true
   })
   console.log('checkpoint2')
 
   //login process
+  console.time('tempo para crawlear')
   const homePage = await loginOnExtratoClubeAndCloseUpdatesModal({
     browser,
     login,
@@ -22,19 +24,17 @@ export const crawlAndProcess = async ({ cpf, login, password }) => {
 
   // const result = await getBenefitsData({homePage, cpf })
 
-  //buscar os dados correspondentes a mensagem na fila
+  const result = mockCrawlReturn(cpf)
 
-  //salvar os dados crawleados no rabbit mq
+  console.timeEnd('tempo para crawlear')
 
-  // await browser.close();
+  await indexData({ data: result })
+
+  console.log(`beneficios do cpf ${cpf} salvos no elasticsearch`)
+
   console.log('checkpoint3')
 
   // console.log(homePage)
-
-  // Implement the login process on the portal using puppeteer
-  // Navigate to "MENU DE OPÇÕES" and click on "BENEFÍCIOS DE UM CPF"
-  // Query the client's CPF and return the found benefit numbers
-  const numerosMatriculas = [] // Array containing the found enrollment numbers
 
   // await browser.close()
 }
