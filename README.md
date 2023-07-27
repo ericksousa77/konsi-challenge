@@ -8,7 +8,7 @@
 - [x] - insert data on queue
 - [x] - encrypt user password to save on queue
 - [x] - consume queue for crawl
-- [x] - decrypt user password to use in login
+- [x] - decrypt user password to use on login
 - [x] - login on portal
 - [ ] - crawl data on portal
 - [x] - save on elasticsearch (mock sucessfuly)
