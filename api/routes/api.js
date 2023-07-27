@@ -1,14 +1,12 @@
 import express from 'express'
 
-import CrawlerController from '../controllers/crawler-controller'
+import UserBenefitsController from '../controllers/user-benefits-controller'
 import QueueController from '../controllers/queue-controller'
 
 const router = express.Router()
 
-router.get('/crawl', CrawlerController.show)
+router.get('/user-benefits', UserBenefitsController.show)
 
 router.post('/queue', QueueController.pushToQueue)
-
-router.get('/queue', QueueController.consumeChannel)
 
 export default router

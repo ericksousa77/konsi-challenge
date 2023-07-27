@@ -1,6 +1,9 @@
 import { encrypt } from '../../helpers/security'
-import { consumeMessages, insertDataInQueue } from '../../services/rabbitmq'
+import { insertDataInQueue } from '../../services/rabbitmq'
 
+/*
+envia para a fila os dados a serem crawleados
+*/
 export const pushToQueue = async (req, res) => {
   const dataToQueue = req.body
 
@@ -20,14 +23,6 @@ export const pushToQueue = async (req, res) => {
   res.status(200).json({ message: 'data inserted on queue' })
 }
 
-// função para chamar a cron de fora manual
-export const consumeChannel = async (req, res) => {
-  await consumeMessages()
-
-  res.status(200).json({ message: 'queue consumed:' })
-}
-
 export default {
-  pushToQueue,
-  consumeChannel
+  pushToQueue
 }
