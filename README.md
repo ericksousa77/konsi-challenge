@@ -14,6 +14,7 @@
 - [x] - save on elasticsearch (mock sucessfuly)
 - [x] - query on elasticsearch (mock sucessfuly)
 - [ ] - cache recent searches
+- [ ] - build interface to show registration by CPF
 
 extras: 
 
