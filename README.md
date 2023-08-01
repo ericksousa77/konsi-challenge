@@ -13,7 +13,7 @@
 - [ ] - crawl data on portal
 - [x] - save on elasticsearch (mock sucessfuly)
 - [x] - query on elasticsearch (mock sucessfuly)
-- [ ] - cache recent searches
+- [x] - cache recent crawler searches
 - [ ] - build interface to show registration by CPF
 
 extras: 
