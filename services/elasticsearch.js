@@ -10,31 +10,36 @@ export const createIndex = async indexName => {
 export const indexData = async ({ indexName, data }) => {
   const { cpf, matricula } = data
 
-  const { body } = await client.search({
-    index: indexName || ELASTIC_SEARCH_INDEX,
-    body: {
-      query: {
-        bool: {
-          must: [
-            { match: { 'cpf.keyword': cpf } },
-            { match: { 'matricula.keyword': matricula } }
-          ]
-        }
-      }
-    }
-  })
+  // const { body } = await client
+  //   .search({
+  //     index: indexName || ELASTIC_SEARCH_INDEX,
+  //     body: {
+  //       query: {
+  //         bool: {
+  //           must: [
+  //             { match: { 'cpf.keyword': cpf } },
+  //             { match: { 'matricula.keyword': matricula } }
+  //           ]
+  //         }
+  //       }
+  //     }
+  //   })
+  //   .catch(err => console.error(err))
 
-  if (body.hits.total.value !== 0) {
-    console.log(
-      'Já existe um registro com essse cpf e matricula, portando esse não será salvo para evitar dados duplicados'
-    )
-    return
-  }
+  // if (body?.hits?.total?.value !== 0) {
+  //   console.log(
+  //     'Já existe um registro com essse cpf e matricula, portando esse não será salvo para evitar dados duplicados'
+  //   )
+  //   console.log('caiu aqui 889')
+  //   return
+  // }
 
-  await client.index({
-    index: indexName || ELASTIC_SEARCH_INDEX,
-    body: data
-  })
+  await client
+    .index({
+      index: indexName || ELASTIC_SEARCH_INDEX,
+      body: data
+    })
+    .catch(err => console.error(err))
 }
 
 export const getAllRecordsFromIndexByCPF = async ({

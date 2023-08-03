@@ -12,12 +12,14 @@ export const ELASTIC_SEARCH_NODE =
 export const ELASTIC_SEARCH_INDEX =
   process.env.ELASTIC_SEARCH_INDEX || 'matriculas'
 
-export const RABBITMQ_HOST = process.env.RABBITMQ_HOST || 'localhost'
-export const RABBITMQ_PORT = process.env.RABBITMQ_PORT || 5672
+export const RABBITMQ_URL =
+  process.env.RABBITMQ_URL || 'amqp://guest@rabbitmq:5672'
 export const RABBITMQ_QUEUE = process.env.RABBITMQ_QUEUE || 'matriculas_queue'
 
-export const REDIS_HOST =
-  process.env.REDIS_HOST || 'redis://default:redispw@localhost:6379'
+export const REDIS_HOST = process.env.REDIS_HOST || 'localhost'
+export const REDIS_PORT = process.env.REDIS_PORT || 6379
+export const REDIS_PASSWORD = process.env.REDIS_PASSWORD || 'redispw'
+
 export const REDIS_CACHE_EXPIRATION_TIME_IN_SECONDS =
   parseInt(process.env.REDIS_CACHE_EXPIRATION_TIME_IN_SECONDS, 10) || 43200 // 12 horas
 
@@ -25,3 +27,5 @@ export const EXTRATO_CLUBE_URL = process.env.EXTRATO_CLUBE_URL
 
 export const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY
 export const ENCRYPTION_ALGORITHM = process.env.ENCRYPTION_ALGORITHM
+
+export const PUPPETEER_EXECUTABLE_PATH = process.env.PUPPETEER_EXECUTABLE_PATH

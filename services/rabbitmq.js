@@ -1,14 +1,12 @@
 import amqp from 'amqplib'
-import { RABBITMQ_HOST, RABBITMQ_PORT, RABBITMQ_QUEUE } from '../config/config'
+import { RABBITMQ_QUEUE, RABBITMQ_URL } from '../config/config'
 import { crawlAndProcess } from '../crawler/extratoclube-crawler'
 import { decrypt } from '../helpers/security'
 import { processMessage } from '../helpers/utills'
 
 export const insertDataInQueue = async data => {
   try {
-    const connection = await amqp.connect(
-      `amqp://${RABBITMQ_HOST}:${RABBITMQ_PORT}`
-    )
+    const connection = await amqp.connect(RABBITMQ_URL)
     const channel = await connection.createChannel()
     await channel.assertQueue(RABBITMQ_QUEUE)
     channel.sendToQueue(RABBITMQ_QUEUE, Buffer.from(JSON.stringify(data)))
@@ -21,9 +19,7 @@ export const insertDataInQueue = async data => {
 
 export const getDataFromQueue = async () => {
   try {
-    const connection = await amqp.connect(
-      `amqp://${RABBITMQ_HOST}:${RABBITMQ_PORT}`
-    )
+    const connection = await amqp.connect(RABBITMQ_URL)
     const channel = await connection.createChannel()
     await channel.assertQueue(RABBITMQ_QUEUE)
     const message = await channel.get(RABBITMQ_QUEUE)
@@ -45,17 +41,11 @@ export const consumeMessages = async () => {
 
     console.log(`CONSUMINDO A FILA: ${RABBITMQ_QUEUE}`)
 
-    const connection = await amqp.connect(
-      `amqp://${RABBITMQ_HOST}:${RABBITMQ_PORT}`
-    )
+    const connection = await amqp.connect(RABBITMQ_URL)
     const channel = await connection.createChannel()
     await channel.assertQueue(RABBITMQ_QUEUE, { durable: true })
 
-    // console.log('checkpoint 1')
-
     await channel.prefetch(1)
-
-    // console.log('checkpoint 2')
 
     channel.consume(
       RABBITMQ_QUEUE,

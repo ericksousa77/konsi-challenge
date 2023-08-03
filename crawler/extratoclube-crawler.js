@@ -7,6 +7,7 @@ import {
 import { indexData } from '../services/elasticsearch'
 import { dataToCrawlValidation, formatObjectForSave } from '../helpers/utills'
 import { setCacheData } from '../services/redis'
+import { PUPPETEER_EXECUTABLE_PATH } from '../config/config'
 
 export const crawlAndProcess = async ({ cpf, login, password }) => {
   console.log('checkpoint1')
@@ -21,10 +22,14 @@ export const crawlAndProcess = async ({ cpf, login, password }) => {
     return
   }
 
-  const browser = await puppeteer.launch({
-    headless: 'new', // opções: 'new' -> nao mostra o browser : false -> mostra o browser
-    ignoreHTTPSErrors: true
-  })
+  const browser = await puppeteer
+    .launch({
+      headless: 'new', // opções: 'new' -> nao mostra o browser : false -> mostra o browser
+      ignoreHTTPSErrors: true,
+      executablePath: PUPPETEER_EXECUTABLE_PATH,
+      args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu']
+    })
+    .catch(err => console.error(err))
 
   console.log('checkpoint2')
 

@@ -1,8 +1,6 @@
 import crypto from 'crypto'
 import { ENCRYPTION_ALGORITHM, ENCRYPTION_KEY } from '../config/config'
 
-//adicionar try catch
-
 // Função para criptografar o dado
 export const encrypt = data => {
   const iv = crypto.randomBytes(16)

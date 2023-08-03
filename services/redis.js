@@ -2,10 +2,16 @@ import redis from 'redis'
 import { promisify } from 'util'
 import {
   REDIS_CACHE_EXPIRATION_TIME_IN_SECONDS,
-  REDIS_HOST
+  REDIS_HOST,
+  REDIS_PASSWORD,
+  REDIS_PORT
 } from '../config/config'
 
-const client = redis.createClient(REDIS_HOST)
+const client = redis.createClient({
+  host: REDIS_HOST,
+  port: REDIS_PORT,
+  password: REDIS_PASSWORD
+})
 
 const getAsync = promisify(client.get).bind(client)
 const setexAsync = promisify(client.setex).bind(client)
@@ -26,7 +32,11 @@ async function setCacheData(key, data) {
       )
     }
 
-    await setexAsync(key, 50, JSON.stringify(data))
+    await setexAsync(
+      key,
+      REDIS_CACHE_EXPIRATION_TIME_IN_SECONDS,
+      JSON.stringify(data)
+    )
   } catch (err) {
     console.error({
       message: 'erro ao tentar salvar os dados em cache no redis',
