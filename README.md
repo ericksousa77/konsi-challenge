@@ -10,7 +10,7 @@
 - [x] - consume queue for crawl
 - [x] - decrypt user password to use on login
 - [x] - login on portal
-- [ ] - crawl data on portal
+- [x] - crawl data on portal
 - [x] - save on elasticsearch (mock sucessfuly)
 - [x] - query on elasticsearch (mock sucessfuly)
 - [x] - cache recent crawler searches
