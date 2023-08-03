@@ -7,9 +7,32 @@ export const createIndex = async indexName => {
   await client.indices.create({ index: indexName || ELASTIC_SEARCH_INDEX })
 }
 
-export const indexData = async ({ index, data }) => {
+export const indexData = async ({ indexName, data }) => {
+  const { cpf, matricula } = data
+
+  const { body } = await client.search({
+    index: indexName || ELASTIC_SEARCH_INDEX,
+    body: {
+      query: {
+        bool: {
+          must: [
+            { match: { 'cpf.keyword': cpf } },
+            { match: { 'matricula.keyword': matricula } }
+          ]
+        }
+      }
+    }
+  })
+
+  if (body.hits.total.value !== 0) {
+    console.log(
+      'Já existe um registro com essse cpf e matricula, portando esse não será salvo para evitar dados duplicados'
+    )
+    return
+  }
+
   await client.index({
-    index: index || ELASTIC_SEARCH_INDEX,
+    index: indexName || ELASTIC_SEARCH_INDEX,
     body: data
   })
 }
@@ -24,7 +47,7 @@ export const getAllRecordsFromIndexByCPF = async ({
     const from = (page - 1) * pageSize
 
     const response = await client.search({
-      index: indexName,
+      index: indexName || ELASTIC_SEARCH_INDEX,
       body: {
         query: {
           match: {
@@ -42,7 +65,10 @@ export const getAllRecordsFromIndexByCPF = async ({
 
     const pageCount = Math.ceil(totalHits / pageSize)
 
-    return { records, pagination: { page, pageSize, pageCount } }
+    return {
+      records,
+      pagination: { page, pageSize, pageCount, total: totalHits }
+    }
   } catch (error) {
     console.error('Erro ao buscar registros:', error)
     return []

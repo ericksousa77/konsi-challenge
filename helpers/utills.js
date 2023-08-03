@@ -1,3 +1,5 @@
+import { getCacheData } from '../services/redis'
+
 export const getSrcFromFrame = htmlString => {
   const pattern = /<frame src="(.*?)" frameborder="0">/
 
@@ -27,4 +29,29 @@ export const mockCrawlReturn = cpf => ({
   cpf,
   name: 'Nome Mockado 3',
   benefit: 'Bradesco'
+})
+
+export const dataToCrawlValidation = async cpf => {
+  const dataOnCache = await getCacheData(cpf)
+
+  console.log({ dataOnCache })
+
+  if (dataOnCache) {
+    console.log('caiu aqui')
+    return {
+      alreadyExistsOnCache: true,
+      dataOnCache
+    }
+  }
+
+  console.log('caiu aqui2')
+
+  return {
+    alreadyExistsOnCache: false
+  }
+}
+
+export const formatObjectForSave = ({ cpf, result }) => ({
+  cpf,
+  matricula: result
 })
