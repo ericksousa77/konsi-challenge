@@ -18,6 +18,6 @@
 
 extras: 
 
-- [ ] - validators
+- [x] - validators on endpoints
 - [ ] - tests
 - [ ] - docker compose
