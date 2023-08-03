@@ -11,8 +11,8 @@
 - [x] - decrypt user password to use on login
 - [x] - login on portal
 - [x] - crawl data on portal
-- [x] - save on elasticsearch (mock sucessfuly)
-- [x] - query on elasticsearch (mock sucessfuly)
+- [x] - save on elasticsearch
+- [x] - query on elasticsearch
 - [x] - cache recent crawler searches
 - [ ] - build interface to show registration by CPF
 
