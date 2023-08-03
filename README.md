@@ -20,4 +20,5 @@ extras:
 
 - [x] - validators on endpoints
 - [ ] - tests
-- [ ] - docker compose
+- [x] - docker compose
+- [ ] - consumer queue microservice
