@@ -22,5 +22,5 @@ extras:
 - [ ] - tests
 - [x] - docker compose
 - [ ] - create microservice for consume queue 
-- [x] - add pagiantion on backend
-- [ ] - add pagiantion on frontend
+- [x] - add pagination on backend
+- [x] - add pagination on frontend
