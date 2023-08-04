@@ -14,7 +14,7 @@
 - [x] - save on elasticsearch
 - [x] - query on elasticsearch
 - [x] - cache recent crawler searches
-- [ ] - build interface to show registration by CPF
+- [x] - build interface to show registration by CPF
 
 extras: 
 
