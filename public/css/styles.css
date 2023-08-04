@@ -56,3 +56,36 @@ button[disabled] {
   background-color: #ccc;
   cursor: not-allowed;
 }
+
+#paginationButtons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center; /* Centraliza os botões horizontalmente */
+  gap: 5px; /* Espaçamento entre os botões */
+}
+
+#paginationButtons button {
+  padding: 5px 10px;
+  background-color: #007BFF; 
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+#paginationButtons button.active {
+  background-color: #03356b; /* Cor mais escura ao passar o mouse */
+  font-weight: bold; /* Destaca a página atual */
+  color: #fff;
+}
+
+#paginationButtons button:not(.active):hover {
+  background-color: #0056b3; /* Cor de hover nos botões, exceto o atual */
+}
+
+.pageSize-container {
+  margin-top: 10px;
+}
+
+.pageSize-container label {
+  margin-bottom: 5px; /* Espaço entre o rótulo e o campo de seleção */
+}

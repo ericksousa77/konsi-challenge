@@ -8,10 +8,27 @@
 </head>
 <body>
   <h1>ExtratoClube Search</h1>
+
   <label for="cpf">Digite o número do <b>CPF:</b></label>
+
   <input type="text" id="cpf" maxlength="14" oninput="formatCPF()" />
+
+  <div class="pageSize-container">
+    <label for="pageSize">Selecione a quantidade de itens por página:</label>
+    <select id="pageSize">
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="5">5</option>
+      <option value="10" selected>10</option>
+    </select>
+  </div>
+
   <button id="searchButton" onclick="search()" disabled>Buscar</button>
+
   <div id="result"></div>
+
+  <div id="paginationButtons"></div>
 
   <script>
 
@@ -36,16 +53,16 @@
       }
     }
 
-    async function search() {
+    async function search(page = 1) {
       const cpf = cpfInput.value
-      const response = await fetch(`/api/user-benefits?cpf=${cpf}`, {
+      const selectedPageSize = parseInt(document.getElementById('pageSize').value, 10);
+      const response = await fetch(`/api/user-benefits?cpf=${cpf}&page=${page}&pageSize=${selectedPageSize}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
         },
       });
       const data = await response.json();     
-      
       const resultTable = document.createElement('table');
       resultTable.id = 'resultTable';
       const tbody = document.createElement('tbody');
@@ -70,7 +87,30 @@
       const resultDiv = document.getElementById('result');
       resultDiv.innerHTML = '';
       resultDiv.appendChild(resultTable);
+
+      updatePagination(data.pagination.page, data.pagination.pageCount);
     }
+
+    function updatePagination(currentPage, pageCount) {
+    const paginationButtons = document.getElementById('paginationButtons');
+    paginationButtons.innerHTML = '';
+
+    for (let i = 1; i <= pageCount; i++) {
+
+      const button = document.createElement('button');
+
+      button.textContent = i;
+
+      if (i == currentPage) {
+      button.classList.add('active'); // Adiciona classe para destacar a página atual
+      }
+
+      button.addEventListener('click', () => search(i)); // Chama a função search() com o número da página
+
+      paginationButtons.appendChild(button);
+    }
+  }
+
   </script>
 </body>
 </html>
