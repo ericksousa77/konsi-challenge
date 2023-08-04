@@ -1,0 +1,58 @@
+/* styles.css */
+
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
+
+h1 {
+  margin-top: 50px;
+}
+
+label {
+  display: block;
+  margin-top: 20px;
+}
+
+input {
+  padding: 8px;
+}
+
+button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #007BFF;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+#result {
+  margin-top: 30px;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 8px;
+  border: 1px solid #ccc;
+}
+
+/* Estiliza as linhas alternadas com contraste */
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+button[disabled] {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
