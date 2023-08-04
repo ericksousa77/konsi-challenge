@@ -13,4 +13,6 @@ router.get('/test/cache', UserBenefitsController.testSetAndGetOnRedis)
 
 router.post('/queue', queueValidator, QueueController.pushToQueue)
 
+router.get('/', UserBenefitsController.indexView)
+
 export default router

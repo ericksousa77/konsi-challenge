@@ -56,15 +56,15 @@ export const consumeMessages = async () => {
 
             const decryptedPassword = decrypt(data?.senha)
 
-            const result = await crawlAndProcess({
-              cpf: data?.cpf,
-              login: data?.login,
-              password: decryptedPassword
-            })
-
-            // await processMessage(message)
-
-            channel.ack(message)
+            await crawlAndProcess(
+              {
+                cpf: data?.cpf,
+                login: data?.login,
+                password: decryptedPassword
+              },
+              channel,
+              message
+            )
           } catch (error) {
             console.error(error)
           }

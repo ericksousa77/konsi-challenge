@@ -37,6 +37,8 @@ async function setCacheData(key, data) {
       REDIS_CACHE_EXPIRATION_TIME_IN_SECONDS,
       JSON.stringify(data)
     )
+
+    console.log(`os dados (${JSON.stringify(data)}) foram salvos no redis`)
   } catch (err) {
     console.error({
       message: 'erro ao tentar salvar os dados em cache no redis',

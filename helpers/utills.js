@@ -37,14 +37,11 @@ export const dataToCrawlValidation = async cpf => {
   console.log({ dataOnCache })
 
   if (dataOnCache) {
-    console.log('caiu aqui')
     return {
       alreadyExistsOnCache: true,
       dataOnCache
     }
   }
-
-  console.log('caiu aqui2')
 
   return {
     alreadyExistsOnCache: false

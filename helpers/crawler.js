@@ -53,9 +53,12 @@ export const loginOnExtratoClubeAndCloseUpdatesModal = async ({
 
 export const getBenefitsByCPF = async ({ homePage, cpf, browser }) => {
   try {
+    console.log('aqui2')
+
     await homePage.waitForSelector(
       'xpath=//*[@id="extratoonline"]/ion-row[2]/ion-col/ion-card'
     )
+    console.log('aqui3')
 
     const buttons = await homePage.$$('ion-button')
     for (const button of buttons) {
@@ -67,32 +70,49 @@ export const getBenefitsByCPF = async ({ homePage, cpf, browser }) => {
       }
     }
 
+    console.log('aqui4')
+
     const inputXPath =
       '//*[@id="extratoonline"]/ion-row[2]/ion-col/ion-card/ion-grid/ion-row[2]/ion-col/ion-card/ion-item/ion-input/input'
     await homePage.waitForXPath(inputXPath)
+    console.log('aqui5')
 
     const [inputBeneficio] = await homePage.$x(inputXPath)
     await timeout(500)
+    console.log('aqui6')
 
     await inputBeneficio.type(cpf)
+    console.log('aqui7')
 
     await loginPage.keyboard.press('Tab', { delay: 500 })
+    console.log('aqui8')
 
     await loginPage.keyboard.press('Enter', { delay: 500 })
+    console.log('aqui9')
+
+    await timeout(200)
+    console.log('aqui10')
 
     const userDataCrawled = await homePage.evaluate(() => {
+      console.log('aqui 10.1')
       const itemElement = document.querySelectorAll(
         '.item.md.ion-focusable.hydrated.item-label'
       )
+      console.log('aqui 10.2')
+
       const userData = itemElement[0].querySelector('ion-label').innerText
+      console.log('aqui 10.3')
+
       return userData
     })
+    console.log('aqui11')
 
     await timeout(200)
 
     if (!userDataCrawled) {
       return null
     }
+    console.log('aqui12')
 
     return userDataCrawled
   } catch (err) {

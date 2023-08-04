@@ -29,7 +29,12 @@ export const testSetAndGetOnRedis = async (req, res) => {
   res.status(201).json({ message: 'registros no cache:', ...dataFromCache })
 }
 
+export const indexView = async (req, res) => {
+  res.render('index')
+}
+
 export default {
   show,
-  testSetAndGetOnRedis
+  testSetAndGetOnRedis,
+  indexView
 }

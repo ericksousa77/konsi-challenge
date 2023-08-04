@@ -4,10 +4,14 @@ import { SERVER_PORT } from '../config/config'
 import crawlerRoutes from './routes/api'
 import { consumeMessages } from '../services/rabbitmq'
 import process from 'process'
+import path from 'path'
 
 const app = express()
 
 app.use(bodyParser.json())
+
+app.set('view engine', 'ejs')
+app.set('views', path.join(__dirname, '..', 'web'))
 
 app.use('/api', crawlerRoutes)
 

@@ -9,15 +9,18 @@ import { dataToCrawlValidation, formatObjectForSave } from '../helpers/utills'
 import { setCacheData } from '../services/redis'
 import { PUPPETEER_EXECUTABLE_PATH } from '../config/config'
 
-export const crawlAndProcess = async ({ cpf, login, password }) => {
-  console.log('checkpoint1')
-
+export const crawlAndProcess = async (
+  { cpf, login, password },
+  channel,
+  message
+) => {
   const validationResult = await dataToCrawlValidation(cpf)
 
   if (validationResult.alreadyExistsOnCache) {
     console.log(
       'nao precisa crawlear novamente porque os dados ja foram crawleados e indexados recentemente'
     )
+    channel.ack(message)
 
     return
   }
@@ -31,7 +34,7 @@ export const crawlAndProcess = async ({ cpf, login, password }) => {
     })
     .catch(err => console.error(err))
 
-  console.log('checkpoint2')
+  console.log(`iniciando crawler para o cpf (${cpf}) ...`)
 
   console.time('tempo para crawlear')
   const homePage = await loginOnExtratoClubeAndCloseUpdatesModal({
@@ -40,15 +43,19 @@ export const crawlAndProcess = async ({ cpf, login, password }) => {
     password
   })
 
+  console.log('aqui1')
   const result = await getBenefitsByCPF({ homePage, cpf, browser })
 
   await browser.close()
   console.timeEnd('tempo para crawlear')
 
-  console.log(result)
+  console.log(
+    `matricula encontrada no portal para o cpf (${cpf}) : matricula (${result})`
+  )
 
   if (!result) {
     console.log(`Nenhum dado encontrado para o usuário: ${cpf}`)
+    channel.nack(message)
     return
   }
 
@@ -56,9 +63,9 @@ export const crawlAndProcess = async ({ cpf, login, password }) => {
 
   await indexData({ data: formatedDataToSave })
 
-  console.log(`beneficios do cpf ${cpf} salvos no elasticsearch`)
-
   await setCacheData(cpf, formatedDataToSave)
 
-  console.log('checkpoint3')
+  console.log(`crawler finalizado para o cpf (${cpf})`)
+
+  channel.ack(message)
 }
