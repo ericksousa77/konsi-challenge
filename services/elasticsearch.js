@@ -3,6 +3,12 @@ import { ELASTIC_SEARCH_INDEX, ELASTIC_SEARCH_NODE } from '../config/config'
 
 const client = new Client({ node: ELASTIC_SEARCH_NODE })
 
+export const indexExists = async indexName => {
+  return await client.indices.exists({
+    index: indexName || ELASTIC_SEARCH_INDEX
+  })
+}
+
 export const createIndex = async indexName => {
   await client.indices.create({ index: indexName || ELASTIC_SEARCH_INDEX })
 }
@@ -10,29 +16,35 @@ export const createIndex = async indexName => {
 export const indexData = async ({ indexName, data }) => {
   const { cpf, matricula } = data
 
-  // const { body } = await client
-  //   .search({
-  //     index: indexName || ELASTIC_SEARCH_INDEX,
-  //     body: {
-  //       query: {
-  //         bool: {
-  //           must: [
-  //             { match: { 'cpf.keyword': cpf } },
-  //             { match: { 'matricula.keyword': matricula } }
-  //           ]
-  //         }
-  //       }
-  //     }
-  //   })
-  //   .catch(err => console.error(err))
+  const indexExistsResult = await indexExists(ELASTIC_SEARCH_INDEX)
 
-  // if (body?.hits?.total?.value !== 0) {
-  //   console.log(
-  //     'Já existe um registro com essse cpf e matricula, portando esse não será salvo para evitar dados duplicados'
-  //   )
-  //   console.log('caiu aqui 889')
-  //   return
-  // }
+  if (!indexExistsResult.body) {
+    // O índice ainda não existe, então criamos
+    await createIndex(ELASTIC_SEARCH_INDEX)
+  }
+
+  const { body } = await client
+    .search({
+      index: indexName || ELASTIC_SEARCH_INDEX,
+      body: {
+        query: {
+          bool: {
+            must: [
+              { match: { 'cpf.keyword': cpf } },
+              { match: { 'matricula.keyword': matricula } }
+            ]
+          }
+        }
+      }
+    })
+    .catch(err => console.error(err))
+
+  if (body?.hits?.total?.value !== 0) {
+    console.log(
+      'Já existe um registro com essse cpf e matricula, portando esse não será salvo para evitar dados duplicados'
+    )
+    return
+  }
 
   await client
     .index({
@@ -40,6 +52,10 @@ export const indexData = async ({ indexName, data }) => {
       body: data
     })
     .catch(err => console.error(err))
+
+  console.log(
+    `a matricula (${matricula}) do cpf (${cpf}) foi salva no elasticsearch`
+  )
 }
 
 export const getAllRecordsFromIndexByCPF = async ({
