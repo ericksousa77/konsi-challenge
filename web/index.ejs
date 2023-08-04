@@ -92,23 +92,23 @@
     }
 
     function updatePagination(currentPage, pageCount) {
-    const paginationButtons = document.getElementById('paginationButtons');
-    paginationButtons.innerHTML = '';
+      const paginationButtons = document.getElementById('paginationButtons');
+      paginationButtons.innerHTML = '';
 
-    for (let i = 1; i <= pageCount; i++) {
+      for (let i = 1; i <= pageCount; i++) {
 
-      const button = document.createElement('button');
+        const button = document.createElement('button');
 
-      button.textContent = i;
+        button.textContent = i;
 
-      if (i == currentPage) {
-      button.classList.add('active'); // Adiciona classe para destacar a página atual
+        if (i == currentPage) {
+          button.classList.add('active'); // Adiciona classe para destacar a página atual
+        }
+
+        button.addEventListener('click', () => search(i)); // Chama a função search() com o número da página
+
+        paginationButtons.appendChild(button);
       }
-
-      button.addEventListener('click', () => search(i)); // Chama a função search() com o número da página
-
-      paginationButtons.appendChild(button);
-    }
   }
 
   </script>
