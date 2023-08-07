@@ -65,7 +65,7 @@ PUPPETEER_EXECUTABLE_PATH = '/usr/bin/google-chrome'
 ```
 ## Execução do projeto:
 
-Para rodar o projeto basta executar o comando:
+Após configurar o arquivo .env basta acessar o diretório do projeto e executar o comando:
 
 `docker compose --build -d`
 
