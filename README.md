@@ -35,7 +35,7 @@ Como o frontend é bem simples optei por hostear no próprio backend uma rota qu
 
 ## Definição das variáveis de ambiente:
 
-Na raiz do projeto deve existir um arquivo **.env** definindo os valores para as variaveis de ambiente do projeto. A titulo de facilitar a execução do projeto, vou deixar um exemplo de **.env** logo abaixo onde basta copiar e colar, assim todas as variaveis de ambiente vão estar devidamente preechidas com seus respectivos valores.
+Na raiz do projeto deve existir um arquivo **.env** definindo os valores para as variaveis de ambiente do projeto. A titulo de facilitar a execução do projeto, deixei um exemplo de **.env** logo abaixo onde basta copiar e colar, assim todas as variaveis de ambiente vão estar devidamente preechidas com seus respectivos valores.
 
 OBS: Sei que não é seguro expor o arquivo .env, só estou fazendo isso para simplificar a execução do projeto e porque sei que não estou expondo nenhum dado que irá prejudicar alguem:
 
