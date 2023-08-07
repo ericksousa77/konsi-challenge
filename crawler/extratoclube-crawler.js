@@ -18,7 +18,7 @@ export const crawlAndProcess = async (
 
   if (validationResult.alreadyExistsOnCache) {
     console.log(
-      'nao precisa crawlear novamente porque os dados ja foram crawleados e indexados recentemente'
+      `nao precisa crawlear novamente porque os dados ja foram crawleados e indexados recentemente para o cpf (${cpf})`
     )
     channel.ack(message)
 
@@ -40,11 +40,22 @@ export const crawlAndProcess = async (
   const homePage = await loginOnExtratoClubeAndCloseUpdatesModal({
     browser,
     login,
-    password
+    password,
+    cpf
   })
 
-  console.log('aqui1')
-  const result = await getBenefitsByCPF({ homePage, cpf, browser })
+  if (!homePage) {
+    //erro no login, provavelmente por credenciais invalidas
+    channel.ack(message)
+    console.timeEnd('tempo para crawlear')
+    return
+  }
+
+  const { result, finishedWithError } = await getBenefitsByCPF({
+    homePage,
+    cpf,
+    browser
+  })
 
   await browser.close()
   console.timeEnd('tempo para crawlear')
@@ -53,9 +64,15 @@ export const crawlAndProcess = async (
     `matricula encontrada no portal para o cpf (${cpf}) : matricula (${result})`
   )
 
-  if (!result) {
+  if (!result && finishedWithError) {
+    console.log(`Erro ao tentar obter os dados do cpf: ${cpf}`)
+    channel.nack(message) //aqui
+    return
+  }
+
+  if (!result && !finishedWithError) {
     console.log(`Nenhum dado encontrado para o usuário: ${cpf}`)
-    channel.nack(message)
+    channel.ack(message)
     return
   }
 

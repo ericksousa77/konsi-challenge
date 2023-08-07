@@ -34,8 +34,6 @@ export const mockCrawlReturn = cpf => ({
 export const dataToCrawlValidation = async cpf => {
   const dataOnCache = await getCacheData(cpf)
 
-  console.log({ dataOnCache })
-
   if (dataOnCache) {
     return {
       alreadyExistsOnCache: true,

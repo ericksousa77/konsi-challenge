@@ -66,16 +66,13 @@ export const consumeMessages = async () => {
               message
             )
           } catch (error) {
-            console.error(error)
+            console.log(error)
           }
         }
       },
       { noAck: false } // Define que as mensagens devem ser confirmadas explicitamente
     )
   } catch (error) {
-    console.error(
-      'Ocorreu um erro ao consumir as mensagens no rabbitmq:',
-      error
-    )
+    console.log('Ocorreu um erro ao consumir as mensagens no rabbitmq:', error)
   }
 }

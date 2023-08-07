@@ -21,13 +21,13 @@ client.on('connect', () => {
 })
 
 client.on('error', error => {
-  console.error('Erro no Redis:', error)
+  console.log('Erro no Redis:', error)
 })
 
 async function setCacheData(key, data) {
   try {
     if (!key || !data) {
-      console.warn(
+      console.log(
         'Chave e valor são parametros obrigatórios para que um dado seja salvo em cache, portando esse dado não foi salvo'
       )
     }
@@ -40,7 +40,7 @@ async function setCacheData(key, data) {
 
     console.log(`os dados (${JSON.stringify(data)}) foram salvos no redis`)
   } catch (err) {
-    console.error({
+    console.log({
       message: 'erro ao tentar salvar os dados em cache no redis',
       err
     })
@@ -50,7 +50,7 @@ async function setCacheData(key, data) {
 async function getCacheData(key) {
   try {
     if (!key) {
-      console.warn(
+      console.log(
         'Chave é um parametro obrigatório para que um dado seja obtido em cache, portando esse dado não foi obtido'
       )
       return
@@ -58,7 +58,7 @@ async function getCacheData(key) {
     const data = await getAsync(key)
     return data ? JSON.parse(data) : null
   } catch (err) {
-    console.error({
+    console.log({
       message: 'erro ao tentar obter os dados em cache no redis',
       err
     })

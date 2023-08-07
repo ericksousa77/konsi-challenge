@@ -9,8 +9,6 @@ const router = express.Router()
 
 router.get('/user-benefits', userBenefitsValidator, UserBenefitsController.show)
 
-router.get('/test/cache', UserBenefitsController.testSetAndGetOnRedis)
-
 router.post('/queue', queueValidator, QueueController.pushToQueue)
 
 router.get('/', UserBenefitsController.indexView)

@@ -22,7 +22,7 @@ RUN npm install
 # Copia o código-fonte da aplicação para o diretório de trabalho
 COPY . .
 
-# Copie o script wait-for-it.sh para dentro do container
+# Copia o script wait-for-it.sh para dentro do container
 COPY wait-for-it.sh .
 
 # Concede permissão de execução ao script
@@ -33,9 +33,6 @@ ENV SERVER_PORT=${SERVER_PORT}
 
 # Porta em que o servidor da aplicação estará escutando
 EXPOSE ${SERVER_PORT}
-
-# # Defina um usuário não-root para executar o container
-# USER node
 
 # Comando para iniciar a aplicação
 CMD ["./wait-for-it.sh", "rabbitmq-api:5672", "-t", "60", "--", "npm", "start"]

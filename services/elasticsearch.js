@@ -41,7 +41,7 @@ export const indexData = async ({ indexName, data }) => {
 
   if (body?.hits?.total?.value !== 0) {
     console.log(
-      'Já existe um registro com essse cpf e matricula, portando esse não será salvo para evitar dados duplicados'
+      `Já existe um registro salvo no elasticsearch com esse cpf (${cpf}) e matricula (${matricula}), portando esse não será salvo para evitar dados duplicados`
     )
     return
   }
@@ -91,7 +91,7 @@ export const getAllRecordsFromIndexByCPF = async ({
       pagination: { page, pageSize, pageCount, total: totalHits }
     }
   } catch (error) {
-    console.error('Erro ao buscar registros:', error)
+    console.log('Erro ao buscar registros:', error)
     return []
   }
 }
