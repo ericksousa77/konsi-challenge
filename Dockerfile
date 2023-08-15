@@ -16,11 +16,11 @@ WORKDIR /usr/src/app
 # Copia o package.json e o package-lock.json para o diretório de trabalho
 COPY package*.json ./
 
-# Instala as dependências do projeto
-RUN npm install
-
 # Copia o código-fonte da aplicação para o diretório de trabalho
 COPY . .
+
+# Instala as dependências do projeto
+RUN npm install
 
 # Copia o script wait-for-it.sh para dentro do container
 COPY wait-for-it.sh .
